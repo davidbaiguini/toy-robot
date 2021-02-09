@@ -1,4 +1,4 @@
-import { isNil } from 'ramda';
+import { isNil, invertObj } from 'ramda';
 
 import {
   ACTION_TYPE,
@@ -12,6 +12,13 @@ const DIRECTION = {
   SOUTH: [0, -1],
   EAST: [1, 0],
   WEST: [-1, 0],
+};
+
+const ORIENTATION = {
+  NORTH: 0,
+  EAST: 90,
+  SOUTH: 180,
+  WEST: 270,
 };
 
 /**
@@ -32,7 +39,7 @@ export const isValidPosition = (
 };
 
 /**
- * Check if the robot is present on the board
+ * Check if the robot is present on the board and is facing somewhere
  */
 export const isRobotPlaced = (
   position?: [number, number],
@@ -74,6 +81,33 @@ export const calculateNextPosition = (
   return [x, y];
 };
 
+/**
+ * Calculate the next facing based on the 90 degree turn
+ */
+export const calculateNextFacing = (
+  facing: FACING,
+  rotate: 'right' | 'left'
+): FACING => {
+  switch (rotate) {
+    case 'right': {
+      const newOrientationValue = (ORIENTATION[facing] + 90) % 360;
+      const newOrientationKey = invertObj(ORIENTATION)[
+        newOrientationValue
+      ] as FACING;
+      return newOrientationKey;
+    }
+    case 'left': {
+      const newOrientationValue = (ORIENTATION[facing] + 360 - 90) % 360;
+      const newOrientationKey = invertObj(ORIENTATION)[
+        newOrientationValue
+      ] as FACING;
+      return newOrientationKey;
+    }
+    default:
+      throw new Error('Unknown rotation');
+  }
+};
+
 export const robotReducer = (
   state: TRobotContext['robotState'],
   action: TRobotReducerActions
@@ -103,6 +137,24 @@ export const robotReducer = (
       }
 
       return { ...state, position: nextPosition };
+    }
+
+    case ACTION_TYPE.left: {
+      const { facing } = state;
+      if (!isValidFacing(facing)) {
+        return state;
+      }
+      const nextFacing = calculateNextFacing(facing, 'left');
+      return { ...state, facing: nextFacing };
+    }
+
+    case ACTION_TYPE.right: {
+      const { facing } = state;
+      if (!isValidFacing(facing)) {
+        return state;
+      }
+      const nextFacing = calculateNextFacing(facing, 'right');
+      return { ...state, facing: nextFacing };
     }
 
     default:

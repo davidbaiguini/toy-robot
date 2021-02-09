@@ -1,10 +1,31 @@
-import { ACTION_TYPE, FACING, TRobotReducerActions } from './RobotContext';
+import {
+  ACTION_TYPE,
+  FACING,
+  TRobotContext,
+  TRobotReducerActions,
+} from './RobotContext';
 import {
   robotReducer,
   isValidPosition,
   isRobotPlaced,
   calculateNextPosition,
+  calculateNextFacing,
 } from './robotReducer';
+
+describe('calculateNextFacing', () => {
+  it('should be able to turn right', () => {
+    expect(calculateNextFacing(FACING.north, 'right')).toBe(FACING.east);
+    expect(calculateNextFacing(FACING.east, 'right')).toBe(FACING.south);
+    expect(calculateNextFacing(FACING.south, 'right')).toBe(FACING.west);
+    expect(calculateNextFacing(FACING.west, 'right')).toBe(FACING.north);
+  });
+  it('should be able to turn left', () => {
+    expect(calculateNextFacing(FACING.north, 'left')).toBe(FACING.west);
+    expect(calculateNextFacing(FACING.west, 'left')).toBe(FACING.south);
+    expect(calculateNextFacing(FACING.south, 'left')).toBe(FACING.east);
+    expect(calculateNextFacing(FACING.east, 'left')).toBe(FACING.north);
+  });
+});
 
 describe('validatePosition', () => {
   it('should return true when the position is valid', () => {
@@ -77,10 +98,10 @@ describe('robotReducer', () => {
       const action: TRobotReducerActions = {
         type: ACTION_TYPE.move,
       };
-      const state = {
+      const state: TRobotContext['robotState'] = {
         boardSize: 5,
         facing: FACING.north,
-        position: [0, 0] as [number, number],
+        position: [0, 0],
       };
       const newState = robotReducer(state, action);
 
@@ -94,10 +115,10 @@ describe('robotReducer', () => {
       const action: TRobotReducerActions = {
         type: ACTION_TYPE.move,
       };
-      const state = {
+      const state: TRobotContext['robotState'] = {
         boardSize: 5,
         facing: FACING.south,
-        position: [0, 0] as [number, number],
+        position: [0, 0],
       };
       const newState = robotReducer(state, action);
 
@@ -105,6 +126,46 @@ describe('robotReducer', () => {
         boardSize: 5,
         position: [0, 0],
         facing: 'SOUTH',
+      });
+    });
+  });
+
+  describe('The LEFT action', () => {
+    it('should rotate the robot to the left', () => {
+      const action: TRobotReducerActions = {
+        type: ACTION_TYPE.left,
+      };
+      const state: TRobotContext['robotState'] = {
+        boardSize: 5,
+        facing: FACING.north,
+        position: [0, 0] as [number, number],
+      };
+      const newState = robotReducer(state, action);
+
+      expect(newState).toStrictEqual({
+        boardSize: 5,
+        position: [0, 0],
+        facing: FACING.west,
+      });
+    });
+  });
+
+  describe('The RIGHT action', () => {
+    it('should rotate the robot to the right', () => {
+      const action: TRobotReducerActions = {
+        type: ACTION_TYPE.right,
+      };
+      const state: TRobotContext['robotState'] = {
+        boardSize: 5,
+        facing: FACING.north,
+        position: [0, 0] as [number, number],
+      };
+      const newState = robotReducer(state, action);
+
+      expect(newState).toStrictEqual({
+        boardSize: 5,
+        position: [0, 0],
+        facing: FACING.east,
       });
     });
   });
