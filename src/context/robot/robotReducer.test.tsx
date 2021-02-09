@@ -81,11 +81,30 @@ describe('calculateNextPosition', () => {
 });
 
 describe('robotReducer', () => {
+  describe('The RESET action', () => {
+    it('should reset the robot', () => {
+      const action: TRobotReducerActions = {
+        type: ACTION_TYPE.reset,
+      };
+      const state: Required<TRobotContext['robotState']> = {
+        boardSize: 5,
+        facing: FACING.south,
+        position: [0, 0],
+        reported: 'Something was reported',
+      };
+      const newState = robotReducer(state, action);
+
+      expect(newState).toStrictEqual({
+        boardSize: 5,
+      });
+    });
+  });
+
   describe('The PLACE action', () => {
     it('should place the robot', () => {
       const action: TRobotReducerActions = {
         type: ACTION_TYPE.place,
-        payload: { x: 1, y: 2, facing: FACING.east },
+        payload: [1, 2, FACING.east],
       };
       const state = robotReducer({ boardSize: 5 }, action);
 
@@ -182,11 +201,11 @@ describe('robotReducer', () => {
 
       const action1: TRobotReducerActions = {
         type: ACTION_TYPE.place,
-        payload: { x: 1, y: 1, facing: FACING.east },
+        payload: [1, 1, FACING.east],
       };
       const action2: TRobotReducerActions = {
         type: ACTION_TYPE.place,
-        payload: { x: 2, y: 2, facing: FACING.south },
+        payload: [2, 2, FACING.south],
       };
       const action3: TRobotReducerActions = {
         type: ACTION_TYPE.move,
@@ -212,7 +231,7 @@ describe('robotReducer', () => {
 
       const action1: TRobotReducerActions = {
         type: ACTION_TYPE.place,
-        payload: { x: 0, y: 0, facing: FACING.south },
+        payload: [0, 0, FACING.south],
       };
       const action2: TRobotReducerActions = {
         type: ACTION_TYPE.move,

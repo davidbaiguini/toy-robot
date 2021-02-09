@@ -15,7 +15,16 @@ const PageWrapper = styled.div`
   flex-direction: column;
 `;
 
-const PageContainer = styled.section`
+const WidgetContainer = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  @media (min-width: 1200px) {
+    flex-direction: row;
+  }
+`;
+
+const Widget = styled.section`
   padding: 25px;
   flex: 1;
   background: white;
@@ -23,17 +32,31 @@ const PageContainer = styled.section`
   border-radius: 5px;
 `;
 
+const BoardContainer = styled.section`
+  padding: 25px;
+  flex: 1;
+  background: white;
+  margin: 40px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+`;
+
 export const App: React.FC = () => {
   return (
     <PageWrapper>
       <Header />
-      <PageContainer>
-        <RobotContextProvider boardSize={5}>
-          <Board />
-          <Controls />
-          <CommandPanel />
-        </RobotContextProvider>
-      </PageContainer>
+      <RobotContextProvider boardSize={5}>
+        <WidgetContainer>
+          <BoardContainer>
+            <Board />
+          </BoardContainer>
+          <Widget>
+            <Controls />
+            <CommandPanel />
+          </Widget>
+        </WidgetContainer>
+      </RobotContextProvider>
       <Footer />
     </PageWrapper>
   );

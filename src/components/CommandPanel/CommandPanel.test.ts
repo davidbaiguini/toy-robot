@@ -57,4 +57,18 @@ describe('CommandPanel', () => {
     `;
     expect(parseCommand(input)).toEqual([['MOVE'], ['LEFT']]);
   });
+
+  it('shoud ignore command when missing arguments', () => {
+    const input = `
+      PLACE ,
+    `;
+    expect(parseCommand(input)).toEqual([['PLACE', []]]);
+  });
+
+  it('should ignore invalid arguments', () => {
+    const input = `
+      PLACE 1,,,,
+    `;
+    expect(parseCommand(input)).toEqual([['PLACE', [1]]]);
+  });
 });

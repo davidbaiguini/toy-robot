@@ -14,7 +14,7 @@ const DIRECTION = {
   WEST: [-1, 0],
 };
 
-const ORIENTATION = {
+export const ORIENTATION = {
   NORTH: 0,
   EAST: 90,
   SOUTH: 180,
@@ -129,7 +129,31 @@ export const robotReducer = (
         boardSize: action.payload.size,
       };
 
+    case ACTION_TYPE.reset:
+      return {
+        boardSize: state.boardSize,
+      };
+
+    case ACTION_TYPE.report: {
+      const { position, facing, boardSize } = state;
+
+      if (
+        position &&
+        isValidPosition(position, boardSize) &&
+        isValidFacing(facing)
+      ) {
+        return {
+          ...state,
+          reported: `[${position[0]},${position[1]},${facing}]`,
+        };
+      }
+      return state;
+    }
+
     case ACTION_TYPE.place: {
+      if (!action.payload) {
+        return state;
+      }
       const [x, y, facing] = action.payload;
       const { boardSize } = state;
       if (!isValidPosition([x, y], boardSize)) {
@@ -174,6 +198,6 @@ export const robotReducer = (
     }
 
     default:
-      throw new Error(`Action ${action.type} is not handled`);
+      throw new Error(`Action is not handled`);
   }
 };

@@ -23,6 +23,7 @@ export enum FACING {
 
 export enum ACTION_TYPE {
   init = 'INIT',
+  reset = 'RESET',
   place = 'PLACE',
   move = 'MOVE',
   right = 'RIGHT',
@@ -34,6 +35,7 @@ type TPayload = {
   [ACTION_TYPE.init]: {
     size: number;
   };
+  [ACTION_TYPE.reset]: undefined;
   [ACTION_TYPE.place]: [x: number, y: number, facing: FACING];
   [ACTION_TYPE.move]: undefined;
   [ACTION_TYPE.left]: undefined;
@@ -47,15 +49,14 @@ export type TRobotContext = {
   robotState: {
     position?: [number, number];
     boardSize?: number;
-    board?: string[][];
     facing?: FACING;
+    reported?: string;
   };
   robotDispatcher: Dispatch<TRobotReducerActions>;
 };
 
 const initialState: TRobotContext['robotState'] = {
   boardSize: 0,
-  board: [[]],
 };
 
 export const RobotContext = createContext<TRobotContext>({

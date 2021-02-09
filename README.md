@@ -33,7 +33,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `yarn lint`
 
-This will lint the projecct in the terminal.
+This will lint the project in the terminal.
 
 ### `yarn prob`
 
@@ -45,9 +45,10 @@ This will `lint`, then check TypeScript, then `test` the project
 * [x] Create a state and a reducer to control the Robot
 * [x] Create a Context to allow access to the robot in multiple components
 * [x] Create the Grid to place the Robot
-* [ ] Create the Robot and place it on the Grid
-* [ ] Create the Controls to visually interact with the Robot
+* [x] Create the Robot and place it on the Grid
 * [x] Create the CommandPanel to write instructions to the Robot
-* [ ] Improve the styles
-* [ ] Deploy somewhere
+* [x] Improve the styles
+* [ ] Create the Controls to visually interact with the Robot
+* [ ] Fix Types for parseCommand
 * [ ] Add E2E tests
+* [ ] Deploy somewhere
