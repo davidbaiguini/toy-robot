@@ -42,10 +42,12 @@ This will `lint`, then check TypeScript, then `test` the project
 ## TODO
 
 * [x] Create the base project
-* [ ] Create a state and a reducer to control the Robot
-* [ ] Create a Context to allow access to the robot in multiple components
-* [ ] Create the Grid to place the Robot
-* [ ] Create the Robot and place him on the Grid
+* [x] Create a state and a reducer to control the Robot
+* [x] Create a Context to allow access to the robot in multiple components
+* [x] Create the Grid to place the Robot
+* [ ] Create the Robot and place it on the Grid
 * [ ] Create the Controls to visually interact with the Robot
-* [ ] Create the CommandPanel to write instructions to the Robot
+* [x] Create the CommandPanel to write instructions to the Robot
 * [ ] Improve the styles
+* [ ] Deploy somewhere
+* [ ] Add E2E tests

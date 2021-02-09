@@ -2,7 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const FooterWrapper = styled.div`
-  border: 1px solid blue;
+  text-align: center;
+  padding: 5px;
+  font-size: 12px;
+  color: #e5e7eb;
 `;
 
 export const Footer: React.FC = () => {

@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, Dispatch } from 'react';
+import React, { createContext, useReducer, Dispatch, useEffect } from 'react';
 
 import { robotReducer } from './robotReducer';
 
@@ -34,11 +34,7 @@ type TPayload = {
   [ACTION_TYPE.init]: {
     size: number;
   };
-  [ACTION_TYPE.place]: {
-    x: number;
-    y: number;
-    facing: FACING;
-  };
+  [ACTION_TYPE.place]: [x: number, y: number, facing: FACING];
   [ACTION_TYPE.move]: undefined;
   [ACTION_TYPE.left]: undefined;
   [ACTION_TYPE.right]: undefined;
@@ -77,6 +73,10 @@ export const RobotContextProvider: React.FC<RobotContextProviderProps> = ({
   boardSize,
 }) => {
   const [robotState, robotDispatcher] = useReducer(robotReducer, initialState);
+
+  useEffect(() => {
+    robotDispatcher({ type: ACTION_TYPE.init, payload: { size: boardSize } });
+  }, [robotDispatcher, boardSize]);
 
   return (
     <RobotContext.Provider value={{ robotState, robotDispatcher }}>

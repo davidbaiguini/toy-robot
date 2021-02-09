@@ -59,11 +59,21 @@ export const isRobotPlaced = (
 /**
  * Type Guard and check that `facing` has a correct value
  */
-const isValidFacing = (facing?: FACING): facing is FACING => {
+export const isValidFacing = (facing?: FACING): facing is FACING => {
   if (!facing) {
     return false;
   }
   return Object.values(FACING).indexOf(facing) !== -1;
+};
+
+/**
+ * Type Guard and check that `facing` has a correct value
+ */
+export const isValidAction = (action?: ACTION_TYPE): action is ACTION_TYPE => {
+  if (!action) {
+    return false;
+  }
+  return Object.values(ACTION_TYPE).indexOf(action) !== -1;
 };
 
 /**
@@ -113,8 +123,14 @@ export const robotReducer = (
   action: TRobotReducerActions
 ): TRobotContext['robotState'] => {
   switch (action.type) {
+    case ACTION_TYPE.init:
+      return {
+        ...state,
+        boardSize: action.payload.size,
+      };
+
     case ACTION_TYPE.place: {
-      const { x, y, facing } = action.payload;
+      const [x, y, facing] = action.payload;
       const { boardSize } = state;
       if (!isValidPosition([x, y], boardSize)) {
         return state;
