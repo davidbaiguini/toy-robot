@@ -67,7 +67,7 @@ export const CommandPanel: React.FC = () => {
       <div>
         <TextArea
           rows={6}
-          placeholder="Enter commands such as: PLACE 0,0,NORTH"
+          placeholder="Enter commands separated by new lines"
           onChange={(event) => {
             setCommandList(event.target.value);
           }}

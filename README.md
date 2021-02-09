@@ -4,6 +4,36 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This is a controllable robot.
 
+## How to use it
+
+Once the Application is running, you can add the list of commands you want your robot to execute.\
+When you click `run`, you will then see the robot placed on the board.
+
+* PLACE x,y,f
+* MOVE
+* LEFT
+* RIGHT
+* REPORT
+
+An example of a list of commands:
+
+```
+PLACE 0,0,NORTH
+LEFT
+REPORT
+```
+
+or
+
+```
+PLACE 1,1,WEST
+MOVE
+MOVE
+LEFT
+REPORT
+```
+
+
 ## Available Scripts
 
 In the project directory, you can run:

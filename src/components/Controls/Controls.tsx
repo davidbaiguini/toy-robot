@@ -15,9 +15,13 @@ export const Controls: React.FC = () => {
       </ul>
       <strong>Example:</strong>
       <pre>
-        PLACE 0,0,NORTH
+        PLACE 1,1,WEST
         <br />
         MOVE
+        <br />
+        MOVE
+        <br />
+        LEFT
         <br />
         REPORT
       </pre>
