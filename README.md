@@ -79,6 +79,7 @@ This will `lint`, then check TypeScript, then `test` the project
 * [x] Create the CommandPanel to write instructions to the Robot
 * [x] Improve the styles
 * [ ] Create the Controls to visually interact with the Robot
-* [ ] Fix Types for parseCommand
-* [ ] Add E2E tests
+* [ ] Refactor and fix Types for the `parseCommand` function
+* [ ] Add E2E tests (with Cypress?)
+* [ ] Add UI unit-tests (with @testing-library/react)
 * [ ] Deploy somewhere
