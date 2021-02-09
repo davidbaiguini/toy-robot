@@ -1,3 +1,5 @@
+import { reduce } from 'ramda';
+
 import {
   ACTION_TYPE,
   FACING,
@@ -11,6 +13,8 @@ import {
   calculateNextPosition,
   calculateNextFacing,
 } from './robotReducer';
+
+const applyActionsToRobotReducer = reduce(robotReducer);
 
 describe('calculateNextFacing', () => {
   it('should be able to turn right', () => {
@@ -165,6 +169,71 @@ describe('robotReducer', () => {
       expect(newState).toStrictEqual({
         boardSize: 5,
         position: [0, 0],
+        facing: FACING.east,
+      });
+    });
+  });
+
+  describe('should handle chained actions', () => {
+    it('should place the robot in the right place', () => {
+      const state: TRobotContext['robotState'] = {
+        boardSize: 5,
+      };
+
+      const action1: TRobotReducerActions = {
+        type: ACTION_TYPE.place,
+        payload: { x: 1, y: 1, facing: FACING.east },
+      };
+      const action2: TRobotReducerActions = {
+        type: ACTION_TYPE.place,
+        payload: { x: 2, y: 2, facing: FACING.south },
+      };
+      const action3: TRobotReducerActions = {
+        type: ACTION_TYPE.move,
+      };
+
+      const newState = applyActionsToRobotReducer(state, [
+        action1,
+        action2,
+        action3,
+      ]);
+
+      expect(newState).toStrictEqual({
+        boardSize: 5,
+        position: [2, 1],
+        facing: FACING.south,
+      });
+    });
+
+    it('should not fall of the board', () => {
+      const state: TRobotContext['robotState'] = {
+        boardSize: 5,
+      };
+
+      const action1: TRobotReducerActions = {
+        type: ACTION_TYPE.place,
+        payload: { x: 0, y: 0, facing: FACING.south },
+      };
+      const action2: TRobotReducerActions = {
+        type: ACTION_TYPE.move,
+      };
+      const action3: TRobotReducerActions = {
+        type: ACTION_TYPE.left,
+      };
+      const action4: TRobotReducerActions = {
+        type: ACTION_TYPE.move,
+      };
+
+      const newState = applyActionsToRobotReducer(state, [
+        action1,
+        action2,
+        action3,
+        action4,
+      ]);
+
+      expect(newState).toStrictEqual({
+        boardSize: 5,
+        position: [1, 0],
         facing: FACING.east,
       });
     });
